@@ -1,4 +1,4 @@
-# Keypress-Counter
+# Keypress Counter
 Learning C++
 
 Tracks Amount of Keys Pressed.
