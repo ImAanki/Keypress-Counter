@@ -17,3 +17,4 @@ Possible Things to Add:
 - UI
 - Mouse Behavour Patterns
 - Only Toggle on/off if console/window is focused
+- Disable updating ui while not in focus
