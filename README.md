@@ -18,3 +18,4 @@ Possible Things to Add:
 - Mouse Behavour Patterns
 - Only Toggle on/off if console/window is focused
 - Disable updating ui while not in focus
+- Special Characters
