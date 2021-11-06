@@ -1,4 +1,4 @@
-// Project1.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// FIRST C++ PROGRAM
 //
 
 #include <iostream>
@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <stdio.h>
 
-class Engine {
+class Brain {
     public:
         HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
         bool Status = false;
@@ -22,7 +22,7 @@ class Engine {
         bool GetState();
 };
 
-void Engine::ConsoleClear() {
+void Brain::ConsoleClear() {
     COORD topLeft = { 0, 0 };
     DWORD written;
     CONSOLE_SCREEN_BUFFER_INFO screen;
@@ -37,16 +37,16 @@ void Engine::ConsoleClear() {
     SetConsoleCursorPosition(console, topLeft);
 }
 
-void Engine::Increment() {
+void Brain::Increment() {
     KeyPressCount = KeyPressCount + 1;
 }
 
-bool Engine::GetState() {
+bool Brain::GetState() {
     return Status;
 }
 
-void Engine::Update() {
-    Engine::ConsoleClear();
+void Brain::Update() {
+    Brain::ConsoleClear();
     SetConsoleTextAttribute(console, 15);
     std::cout << "Aanki's Key Tracker Tool\nCurrent Status: ";
     SetConsoleTextAttribute(console, StatusColours[Status]);
@@ -56,11 +56,11 @@ void Engine::Update() {
 
 };
 
-void Engine::Start() {
+void Brain::Start() {
     Status = true;
 };
 
-void Engine::Stop() {
+void Brain::Stop() {
     Status = false;
 };
 
@@ -73,64 +73,49 @@ bool HasFocus()
 int main()
 {
     clock_t Time = clock();
-    Engine GameEngine = Engine();
+    Brain BrainHandler = Brain();
     bool EnableSwitch = false;
     bool wasDown = false;
     std::string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    GameEngine.Update();
+    BrainHandler.Update();
 
     while (true) {
         for (char C : Alphabet) {
             if (GetKeyState(C) & 0x8000) {
-                if (!GameEngine.KeyArray[C] && GameEngine.Status) {
-                    GameEngine.Increment();
-                    GameEngine.KeyArray[C] = true;
+                if (!BrainHandler.KeyArray[C] && BrainHandler.Status) {
+                    BrainHandler.Increment();
+                    BrainHandler.KeyArray[C] = true;
                 }
             }
             else {
-                GameEngine.KeyArray[C] = false;
+                BrainHandler.KeyArray[C] = false;
             }
         }
 
         if (GetKeyState(VK_F8) & 0x8000) {
             if (!wasDown) {
                 wasDown = true;
-                if (!GameEngine.Status) {
-                    GameEngine.Start();
+                if (!BrainHandler.Status) {
+                    BrainHandler.Start();
                 }
                 else {
-                    GameEngine.Stop();
+                    BrainHandler.Stop();
                 }
 
-                GameEngine.Update();
+                BrainHandler.Update();
             }
         }
         else {
             wasDown = false;
         };
-
-        //if (_kbhit() && GameEngine.Status) {
-        //    GameEngine.Increment();
-        //}
         
         if (clock() - Time >= 2500) {
             Time = clock();
-            GameEngine.Update();
+            BrainHandler.Update();
         }
         Sleep(1);
     }
 
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
